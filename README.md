@@ -1,2 +1,2 @@
-# wakamiti-api
-API for Wakamiti Plugins
+# wakamiti-base
+Base for Wakamiti API and Plugins 
