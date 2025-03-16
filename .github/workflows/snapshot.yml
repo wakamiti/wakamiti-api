@@ -1,0 +1,21 @@
+name: Publish Snapshot
+on:
+  push:
+    branches: [develop]
+
+jobs:
+  validate:
+    name: Validate
+    uses: wakamiti/wakamiti-github-actions/.github/workflows/validate.yml@main
+    with:
+      repo: ${{ github.event.repository.name }}
+    secrets: inherit
+
+  deploy:
+    name: Publish Snapshot Package
+    needs: validate
+    permissions:
+      contents: read
+      packages: write
+    uses: wakamiti/wakamiti-github-actions/.github/workflows/snapshot.yml@main
+    secrets: inherit

@@ -1,0 +1,11 @@
+name: Validate Pull Request
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  validate:
+    uses: wakamiti/wakamiti-github-actions/.github/workflows/validate.yml@main
+    with:
+      repo: ${{ github.event.repository.name }}
+    secrets: inherit
