@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Created-By: Wakamiti Manifest Maven Plugin
+Specification-Vendor: es.wakamiti
+Specification-Title: wakamiti-api
+Specification-Version: @project.version@
+Implementation-Vendor: es.wakamiti
+Implementation-Title: example-wakamiti-plugin
+Implementation-Version: 0.0.1
+
+Name: Plugin
+Plugin-ID: es.wakamiti:example-wakamiti-plugin
+Plugin-Version: 0.0.1
+Plugin-Module: example.plugin
+Plugin-Jar-File: example-wakamiti-plugin-0.0.1.jar
+Plugin-Parent-Artifact: es.wakamiti:wakamiti-extension:@project.version@
+Plugin-Parent-Module: wakamiti.extension
+Plugin-Name: [Wakamiti Plugin] Example
+Plugin-Description: An example Wakamiti plugin
+Plugin-Dependencies: es.wakamiti:wakamiti-extension:@project.version@;es.wak
+ amiti:wakamiti-api:@project.version@
+Plugin-Extensions: wakamiti.example.Greeting=wakamiti.example.plugin.Gre
+ eterA,wakamiti.example.plugin.GreeterA;wakamiti.example.Something=wakam
+ iti.example.plugin.SomethingA
+

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ This Source Code Form is subject to the terms of the Mozilla Public
+  ~ License, v. 2.0. If a copy of the MPL was not distributed with this
+  ~ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  -->
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>es.wakamiti</groupId>
+        <artifactId>wakamiti-api-aggregator</artifactId>
+        <version>@project.version@</version>
+    </parent>
+
+    <artifactId>wakamiti-plugin-parent</artifactId>
+    <version>@project.version@</version>
+    <packaging>pom</packaging>
+    <name>Wakamiti Plugin Starter</name>
+    <description>POM with the base configuration of the Wakamiti plugins</description>
+    <organization>
+        <name>ITI - Instituto Tecnológico de Informática</name>
+        <url>https://www.iti.es</url>
+    </organization>
+    <licenses>
+        <license>
+            <name>MPL-2.0</name>
+            <url>https://www.mozilla.org/en-US/MPL/2.0/</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>María Galbis</name>
+            <email>mgalbis@iti.es</email>
+        </developer>
+        <developer>
+            <name>Carlos Oliva</name>
+            <email>coliva@iti.es</email>
+        </developer>
+        <developer>
+            <name>Julio Montero</name>
+            <email>jmontero@iti.es</email>
+        </developer>
+    </developers>
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>http://github.com/wakamiti/.github/issues</url>
+    </issueManagement>
+    <properties>
+        <revision>@project.version@</revision>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>es.wakamiti</groupId>
+            <artifactId>wakamiti-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>es.wakamiti</groupId>
+                <artifactId>wakamiti-api</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.17.0</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>es.wakamiti</groupId>
+                <artifactId>wakamiti-manifest-maven-plugin</artifactId>
+                <version>${revision}</version>
+                <executions>
+                    <execution>
+                        <id>init</id>
+                        <goals>
+                            <goal>manifest</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>jar</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
