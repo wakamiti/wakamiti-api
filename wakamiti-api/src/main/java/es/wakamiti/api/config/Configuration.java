@@ -1,0 +1,339 @@
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+package es.wakamiti.api.config;
+
+
+import java.util.*;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
+import java.util.stream.Stream;
+
+
+public interface Configuration {
+
+
+    static ConfigurationFactory factory() {
+        return ConfigurationFactory.instance();
+    }
+
+    /**
+     * Creates a new configuration resulting of altering the property keys
+     */
+    Configuration alteringKeys(
+            UnaryOperator<String> alterOperation
+    );
+
+
+    /**
+     * Creates a new configuration resulting of filtering the property keys
+     */
+    Configuration filtered(
+            Predicate<String> filter
+    );
+
+
+    /**
+     * Creates a new configuration resulting of filtering the properties starting
+     * with the given prefix, and the removing it
+     */
+    Configuration inner(
+            String keyPrefix
+    );
+
+    /**
+     * Creates a new configuration resulting of adding the given prefix to every the property keys
+     */
+    Configuration prefixing(
+            String prefix
+    );
+
+
+    /**
+     * @return <code>true</code> if there is no properties in this configuration
+     */
+    boolean isEmpty();
+
+
+    /**
+     * @return <code>true</code> if there is a valued property with the given key
+     */
+    boolean hasProperty(
+            String key
+    );
+
+
+    /**
+     * @return <code>true</code> if there is a multi-valued property with the given key
+     */
+    boolean hasMultivaluedProperty(
+            String key
+    );
+
+    /**
+     * @return the current key
+     */
+    String key();
+
+    /**
+     * @return An iterable object over all the keys of the configuration,
+     * even for those which have no value
+     */
+    Iterable<String> keys();
+
+
+    /**
+     * @return An iterator over all the keys of the configuration,
+     * even for those which have no value
+     */
+    Iterator<String> keyIterator();
+
+
+    /**
+     * @return A stream from all the keys of the configuration,
+     * even for those which have no value
+     */
+    Stream<String> keyStream();
+
+
+    /**
+     * @return An optional string value, empty if the key does not exist
+     */
+    Optional<String> get(
+            String key
+    );
+
+    /**
+     * @return A string value, using the fallback if the key does not exist
+     */
+    String get(
+            String key,
+            String fallback
+    );
+
+
+    /**
+     * @return An optional boolean value, empty if the key does not exist
+     */
+    default Optional<Boolean> getBoolean(
+            String key
+    ) {
+        return get(key, Boolean::valueOf);
+    }
+
+
+    /**
+     * @return A boolean value, using the fallback if the key does not exist
+     */
+    default boolean getBoolean(
+            String key,
+            boolean fallback
+    ) {
+        return get(key, Boolean::parseBoolean, fallback);
+    }
+
+
+    /**
+     * @return An optional integer value, empty if the key does not exist
+     */
+    default Optional<Integer> getInt(
+            String key
+    ) {
+        return get(key, Integer::valueOf);
+    }
+
+
+    /**
+     * @return An integer value, using the fallback if the key does not exist
+     */
+    default int getInt(
+            String key,
+            int fallback
+    ) {
+        return get(key, Integer::parseInt, fallback);
+    }
+
+
+    /**
+     * @return An optional long value, empty if the key does not exist
+     */
+    default Optional<Long> getLong(
+            String key
+    ) {
+        return get(key, Long::valueOf);
+    }
+
+
+    /**
+     * @return A boolean value, using the fallback if the key does not exist
+     */
+    default long getLong(
+            String key,
+            long fallback
+    ) {
+        return get(key, Long::parseLong, fallback);
+    }
+
+
+    /**
+     * @return An optional mapped value, empty if the key does not exist
+     */
+    <T> Optional<T> get(
+            String key,
+            Function<String, T> mapper
+    );
+
+    /**
+     * @return A mapped value, using the fallback if the key does not exist
+     */
+    <T> T get(
+            String key,
+            Function<String, T> mapper,
+            T fallback
+    );
+
+
+    /**
+     * @return A list with string values, empty if the key does not exist
+     */
+    List<String> getList(
+            String key
+    );
+
+    /**
+     * @return A list with mapped values, empty if the key does not exist
+     */
+    <T> List<T> getList(
+            String key,
+            Function<String, T> mapper
+    );
+
+    /**
+     * @return A set with values of the specified type, empty if the key does not
+     * exist
+     */
+    Set<String> getSet(
+            String key
+    );
+
+    /**
+     * @return A set with mapped values, empty if the key does not exist
+     */
+    <T> Set<T> getSet(
+            String key,
+            Function<String, T> mapper
+    );
+
+
+    /**
+     * @return A stream with string values, empty if the key does not exist
+     */
+    Stream<String> getStream(
+            String key
+    );
+
+
+    /**
+     * @return The configuration represented as a {@link Properties} object
+     */
+    Properties asProperties();
+
+
+    /**
+     * @return The configuration represented as a {@link Map} object.
+     */
+    Map<String, String> asMap();
+
+
+    /**
+     * Create a new configuration resulting in the merge the current configuration
+     * with another one
+     */
+    Configuration append(
+            Configuration otherConfig
+    );
+
+
+    /**
+     * @return whether there is a definition for the given property
+     */
+    boolean hasDefinition(
+            String key
+    );
+
+
+    /**
+     * Check whether the current value for the given property is valid according its definition.
+     * If the property is multi-valued, it may return a different validation for each value
+     *
+     * @param key The property key
+     * @return The validation messages, or empty if the value is valid
+     */
+    List<String> validations(
+            String key
+    );
+
+
+    /**
+     * Retrieve the property definition for a given property
+     */
+    Optional<PropertyDefinition> getDefinition(
+            String key
+    );
+
+
+    /**
+     * Retrieve every property definition defined for this configuration
+     *
+     * @return An unmodifiable map in the form of <property,definition>
+     */
+    Map<String, PropertyDefinition> getDefinitions();
+
+
+    /**
+     * Return a map in form of <tt>property=[validation_message1,...]</tt>
+     * with the validation error messages for all invalid properties values
+     * according the current definition.
+     * <p>
+     * Configurations without definition will always return an empty map.
+     * </p>
+     */
+    Map<String, List<String>> validations();
+
+
+    /**
+     * Ensures that all property values are valid according the current definition.
+     * Otherwise, it will raise a {@link ConfigurationException} with a list of every
+     * invalid value.
+     * <p>
+     * Configurations without definition will never raise an exception using this method
+     * </p>
+     *
+     * @return The same instance, for convenience
+     * @throws ConfigurationException if one or more properties have invalid values
+     */
+    Configuration validate() throws ConfigurationException;
+
+
+    /**
+     * Create a new configuration according the given property definitions.
+     * <p>
+     * Defined properties will be set to their default value if it exists and no current value is
+     * set.
+     *
+     * @see PropertyDefinition
+     */
+    Configuration accordingDefinitions(
+            Collection<PropertyDefinition> definitions
+    );
+
+
+    /**
+     * Get a textual representation of all defined properties
+     */
+    String getDefinitionsToString();
+
+}

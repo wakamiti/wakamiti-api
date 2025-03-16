@@ -1,0 +1,31 @@
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+package es.wakamiti.api.contributor;
+
+
+import es.wakamiti.extension.Version;
+import es.wakamiti.extension.annotation.Extension;
+
+
+public interface Contributor {
+
+    default String info() {
+        return "";
+    }
+
+    default Extension metadata() {
+        return getClass().getAnnotation(Extension.class);
+    }
+
+    default Version version() {
+        return Version.of(getClass().getPackage().getImplementationVersion());
+    }
+
+    default Version apiVersion() {
+        return Version.of(getClass().getPackage().getSpecificationVersion());
+    }
+
+}
