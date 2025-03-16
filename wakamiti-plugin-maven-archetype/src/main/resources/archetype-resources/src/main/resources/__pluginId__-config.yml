@@ -1,0 +1,6 @@
+${pluginId}:
+  property1:
+    description: |
+      This is an example property
+    type: text
+    defaultValue: example value
