@@ -1,0 +1,10 @@
+
+module wakamiti.test {
+
+    exports tests;
+
+    requires transitive wakamiti.extension;
+
+    opens tests to wakamiti.extension;
+
+}
