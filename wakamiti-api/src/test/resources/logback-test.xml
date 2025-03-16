@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%msg%n</Pattern>
+        </layout>
+    </appender>
+    <appender name="TEST" class="es.wakamiti.api.test.util.QueueAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%msg%n</Pattern>
+        </layout>
+    </appender>
+
+    <logger name="es.wakamiti" level="trace" />
+    <logger name="es.wakamiti.api" level="off" />
+    <logger name="es.wakamiti.custom" level="info" />
+
+    <root level="off">
+<!--        <appender-ref ref="CONSOLE" />-->
+        <appender-ref ref="TEST" />
+    </root>
+</configuration>
