@@ -35,7 +35,6 @@
     <properties>
         <revision>1.0.0-SNAPSHOT</revision>
         <project.repository>wakamiti-api</project.repository>
-
         <junit.version>5.10.3</junit.version>
     </properties>
 
