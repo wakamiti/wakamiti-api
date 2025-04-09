@@ -1,22 +1,24 @@
-name: Publish Snapshot
+name: Deploy Snapshot
 on:
   push:
     branches: [develop]
 
 jobs:
+  config:
+    name: Maven Configuration
+    uses: wakamiti/wakamiti-github-actions/.github/workflows/maven.yml@main
+    secrets: inherit
+
   validate:
-    name: Validate
+    name: Validate Code
     uses: wakamiti/wakamiti-github-actions/.github/workflows/validate.yml@main
+    needs: config
     with:
-      repo: ${{ github.event.repository.name }}
       analyze: false
     secrets: inherit
 
-  deploy:
-    name: Publish Snapshot Package
-    needs: validate
-    permissions:
-      contents: read
-      packages: write
+  build:
+    name: Deploy
     uses: wakamiti/wakamiti-github-actions/.github/workflows/snapshot.yml@main
+    needs: [config, validate]
     secrets: inherit
