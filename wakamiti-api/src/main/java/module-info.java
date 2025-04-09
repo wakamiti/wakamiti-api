@@ -18,6 +18,7 @@ module wakamiti.api {
     exports es.wakamiti.api.config;
     exports es.wakamiti.api.contributor;
     exports es.wakamiti.api.data;
+    exports es.wakamiti.api.cli;
 //    exports es.wakamiti.api.expression;
     exports es.wakamiti.api.lang;
     exports es.wakamiti.api.log;
