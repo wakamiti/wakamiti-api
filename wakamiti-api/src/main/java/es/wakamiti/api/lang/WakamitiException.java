@@ -26,7 +26,8 @@ public class WakamitiException extends RuntimeException {
     public WakamitiException(
             Throwable throwable
     ) {
-        super(throwable);
+        super(throwable.getMessage(), throwable.getCause());
+        setStackTrace(throwable.getStackTrace());
     }
 
     public WakamitiException(
