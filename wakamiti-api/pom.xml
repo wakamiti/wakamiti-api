@@ -164,12 +164,16 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>
+                <version>1.7.0</version>
+                <inherited>false</inherited>
                 <configuration>
                     <updatePomFile>true</updatePomFile>
-                    <flattenMode>oss</flattenMode>
+                    <flattenMode>bom</flattenMode>
+                    <pomElements>
+                        <build>keep</build>
+                    </pomElements>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 

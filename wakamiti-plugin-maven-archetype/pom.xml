@@ -58,6 +58,22 @@
                 <version>3.2.1</version>
             </extension>
         </extensions>
+
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>1.7.0</version>
+                <inherited>false</inherited>
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                    <flattenMode>bom</flattenMode>
+                    <pomElements>
+                        <build>keep</build>
+                    </pomElements>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
 </project>
