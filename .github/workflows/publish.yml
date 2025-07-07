@@ -1,0 +1,33 @@
+name: Publish release
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    types: [closed]
+
+jobs:
+  config_maven:
+    name: Maven Configuration
+    uses: wakamiti/wakamiti-github-actions/.github/workflows/maven.yml@main
+    secrets: inherit
+  validate_code:
+    name: Validate Code
+    uses: wakamiti/wakamiti-github-actions/.github/workflows/validate_code.yml@main
+    needs: [config_maven]
+    secrets: inherit
+    with:
+      extra_options: -Dsonar.branch.name=main
+  status:
+    uses: wakamiti/wakamiti-github-actions/.github/workflows/status.yml@main
+    needs: [config_maven, validate_code]
+    secrets: inherit
+    with:
+      branch: main
+  deploy:
+    name: Deploy Release
+    uses: wakamiti/wakamiti-github-actions/.github/workflows/deploy.yml@main
+    needs: [config_maven, status]
+    secrets: inherit
+    with:
+      changelog: ${{ needs.status.outputs.changelog }}
+      version: ${{ needs.status.outputs.version }}

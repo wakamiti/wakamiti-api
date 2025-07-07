@@ -1,0 +1,35 @@
+name: Create Release Branch
+on:
+  workflow_dispatch:
+    inputs:
+      type:
+        required: true
+        description: "The release type"
+        type: choice
+        options:
+          - release
+          - hotfix
+  push:
+    branches: [develop]
+jobs:
+  config_maven:
+    name: Maven Configuration
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '#ready')
+    uses: wakamiti/wakamiti-github-actions/.github/workflows/maven.yml@main
+    secrets: inherit
+  status:
+    uses: wakamiti/wakamiti-github-actions/.github/workflows/status.yml@main
+    secrets: inherit
+    needs: config_maven
+    with:
+      branch: ${{ github.event.inputs.type == 'hotfix' && 'main' || 'develop' }}
+  init_release:
+    uses: wakamiti/wakamiti-github-actions/.github/workflows/init_release.yml@main
+    secrets: inherit
+    needs: [config_maven, status]
+    with:
+      changelog: ${{ needs.status.outputs.changelog }}
+      version: ${{ needs.status.outputs.version }}
+      revision: ${{ needs.status.outputs.revision }}
+      branch: ${{ github.event.inputs.type == 'hotfix' && 'main' || 'develop' }}
+      type: ${{ github.event.inputs.type || 'release' }}
